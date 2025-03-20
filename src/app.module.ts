@@ -1,6 +1,8 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TaskModule } from './task/task.module';
+import { databaseConfig } from './config/database.config';
 
 @Module({
   imports: [
@@ -8,14 +10,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
-      imports: [], 
-      useFactory: (configService: ConfigService) => {
-        const uri = configService.get<string>('MONGODB_URI');
-        Logger.log(`MongoDB URI: ${uri}`, 'AppModule');
-        return { uri };
-      },
       inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        // Obtener la URI del ConfigService pero usar las opciones de databaseConfig
+        const uri = configService.get('MONGODB_URI');
+        return {
+          uri,
+          ...databaseConfig.options,
+        };
+      },
     }),
+    TaskModule,
   ],
 })
 export class AppModule {}

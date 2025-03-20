@@ -3,7 +3,17 @@ import { Document } from 'mongoose';
 
 export type TaskDocument = TaskModel & Document;
 
-@Schema({ timestamps: true })
+@Schema({
+  timestamps: true, // Esto añadirá automáticamente createdAt y updatedAt
+  toJSON: {
+    transform: (_, ret) => {
+      ret.id = ret._id.toString();
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    }
+  }
+})
 export class TaskModel {
   @Prop({ required: true })
   description: string;
