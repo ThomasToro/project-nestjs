@@ -32,6 +32,9 @@ export class UserService implements UserServiceInterface {
         if (user.verificationCode!==verificationCode){
          throw new Error("The verification code does not match")
         } 
+
+        
+
         console.log("llegamossssssssss");
         
 
@@ -113,6 +116,7 @@ export class UserService implements UserServiceInterface {
           password: hash , //aca sobrescribimos la password por la del hash 
           verificationCode: code, //incluimos el codigo de verificacion en este objeto
       });
+      
 
       this.emailService.sendEmail({
          recipients: [savedUser.email],

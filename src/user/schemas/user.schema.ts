@@ -37,6 +37,8 @@ export type UserDocument = UserModel & Document;
 
     @Prop() 
     refreshToken: string;
+
+    //poner el tiempo de expiracion del verificationcode
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel); 

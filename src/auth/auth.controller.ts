@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AccessTokenGuard } from 'src/common/guards/acessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
@@ -33,5 +33,10 @@ export class AuthController {
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
   }
+
+  @Patch('verifyEmail') //pudimos haber creado un dto para la verificacion
+    async verifyUser(@Body() { id, verificationCode }: { id: string; verificationCode: string }): Promise<any> {
+    return this.authService.verifyUser(id,verificationCode);
+    }//usamos un dto y lo pasamos como parametro de la funcion
   
 }

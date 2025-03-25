@@ -22,11 +22,17 @@ export class AuthService {
 
     const newUser=this.usersService.create(createUserDto);
 
+    
+
+} //id:string, verificationCode: string para verifyuser
+  async verifyUser(id:string,verificationCode:string):Promise<any>{
+    const newUser = await this.usersService.verifyUser(id,verificationCode);
     const tokens = await this.getTokens((await newUser).id, ((await newUser).name));
     await this.updateRefreshToken((await newUser).id, tokens.refreshToken);
     return tokens;
 
-}
+  }
+
 
     async signIn(loginDto: LoginDto) {
       // Check if user exists
