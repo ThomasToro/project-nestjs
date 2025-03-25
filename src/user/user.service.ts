@@ -167,13 +167,12 @@ export class UserService implements UserServiceInterface {
          throw new Error("The user was not found");
       }
 
-      if(user.isVerified===false){
-         throw new Error("The user is not verified");
-      }
+      
 
       const dto: Partial<UpdateUserDto> = {};//para evitar que si el user no manda email, no se ponga null o sin valor x ejemplo
       if (updateUserDto.name !== undefined) dto.name = updateUserDto.name;
       if (updateUserDto.email !== undefined) dto.email = updateUserDto.email;
+      if (updateUserDto.refreshToken !== undefined) dto.refreshToken = updateUserDto.refreshToken;
 
       const updatedUser= await this.userModel.findByIdAndUpdate(
          id,
@@ -206,13 +205,13 @@ export class UserService implements UserServiceInterface {
 
      
 
-     //no se
+     //estan en auth
      async login(loginDto: LoginDto): Promise<{ accessToken: string; refreshToken: string; user: User; }> {
         return
      }
 
 
-     //no se 
+     //estan en auth
      async refreshToken(refreshToken: string): Promise<{ accessToken: string; refreshToken: string; }> {
         return
      }
@@ -226,6 +225,7 @@ export class UserService implements UserServiceInterface {
            role: userDoc.role,
            verificationCode: userDoc.verificationCode,
            password:userDoc.password,
+           refreshToken:userDoc.refreshToken,
            createdAt: userDoc.createdAt,
            updatedAt: userDoc.updatedAt
          };

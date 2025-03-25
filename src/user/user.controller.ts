@@ -1,8 +1,9 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Get, Param, Patch, Delete } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Get, Param, Patch, Delete, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ChangePasswordDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
 import { get } from 'mongoose';
+import { AccessTokenGuard } from 'src/common/guards/acessToken.guard';
 
 @Controller('api/v1/users')
 
@@ -52,6 +53,7 @@ export class UserController {
 
     }
 
+    @UseGuards(AccessTokenGuard)
     @Patch('update/:id')
     async update(@Param('id') id:string, @Body() updateUserDto:UpdateUserDto):Promise<User>{
 
@@ -59,6 +61,7 @@ export class UserController {
 
     }
 
+    @UseGuards(AccessTokenGuard)
     @Delete('delete/:id')
     async remove(@Param('id') id:string){
 

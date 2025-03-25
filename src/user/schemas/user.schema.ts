@@ -35,8 +35,8 @@ export type UserDocument = UserModel & Document;
     @Prop({required: false}) //codigo de verificacion que se hace al crear el user
     verificationCode:string; //no siempre se necesita porque lo podemos eliminar incluso
 
-    @Prop({ required: false }) 
-    refreshToken?: string;
+    @Prop() 
+    refreshToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel); 
