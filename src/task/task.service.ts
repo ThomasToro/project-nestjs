@@ -8,12 +8,16 @@ import {
 } from './interfaces/task.interface';
 import { CreateTaskDTO, UpdateTaskDTO } from './dto/task.dto';
 
-@Injectable()
+@Injectable() //sirve para conectar a la base de datos
 export class TaskService implements TaskServiceInterface {
   constructor(
-    @InjectModel(TaskModel.name) private taskModel: Model<TaskDocument>,
-  ) {}
+    @InjectModel(TaskModel.name) private taskModel: Model<TaskDocument>,// para inyectar el modelo de la db 
+    //<> especifica que este modelo manejará solo documentos de tipo TaskDocument
+  ) {}//tipo de retorno es un doc que llega desde mongoose <>
 
+  //TODO LO RELACIONADO CON LA BASE DE DATOS SE MANEJA DE FORMA ASINCRÓNICA
+
+  //Lo que hay despues de : es el retorno
   async findAll(): Promise<Task[]> {
     const tasks = await this.taskModel.find().lean().exec();
     return tasks.map(task => this.mapToTaskInterface(task));

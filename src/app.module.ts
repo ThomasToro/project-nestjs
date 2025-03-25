@@ -3,7 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
 import { databaseConfig } from './config/database.config';
-
+import { UserModule } from './user/user.module';
+import { EmailModule } from './email/email.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +23,10 @@ import { databaseConfig } from './config/database.config';
       },
     }),
     TaskModule,
+    UserModule,
+    EmailModule,
+    ConfigModule.forRoot(),
+    AuthModule
   ],
 })
 export class AppModule {}
